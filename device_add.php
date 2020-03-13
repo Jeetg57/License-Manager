@@ -4,7 +4,6 @@ require_once "config.php";
 
 session_start();
 $owner_id = $_SESSION['id'];
-echo($owner_id);
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;

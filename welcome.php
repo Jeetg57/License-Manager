@@ -30,10 +30,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         echo("<ul>");
             echo('<li> <a href="license-add.php">Add new License</a></li>');
             echo("<li> <a href='all-licenses.php'> View Licenses</a></li>");
-        echo("</ul>");
+        
         }
         else{
-            echo('<a href="device_add.php">Add new device</a></li>');
+            echo('<li><a href="device_add.php">Add new device</a></li>');
+            echo('<li><a href="user-specific-license.php">My Licenses</a></li>');
+            echo("</ul>");
         }
         ?>
 
