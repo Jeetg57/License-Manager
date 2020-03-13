@@ -101,20 +101,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
-    body {
-        font: 14px sans-serif;
-    }
+    body {}
 
     .wrapper {
-        width: 350px;
-        padding: 20px;
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 10%;
+        background: white;
+        padding: 10px 30px 30px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
     </style>
 </head>
 
 <body>
+
     <div class="wrapper">
-        <h2>Sign Up</h2>
+        <h1>Sign Up</h1>
+        <hr>
         <p>Please fill this form to create an account.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
