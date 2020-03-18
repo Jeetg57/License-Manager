@@ -10,11 +10,17 @@
 </head>
 
 <body>
-    <section class="container">
+    <?php 
+    include("modularized/navigation.php");
+    ?>
+    <section class="container mt-5">
         <h1>License Manager</h1>
         <p>A powerful and encrypted license manager application</p>
-        <a class="btn btn-primary" href="welcome.php">Get Started</a>
+        <a class="btn btn-success" href="welcome.php">Get Started</a>
     </section>
+    <footer>
+        <p>Made by Jeet</p>
+    </footer>
 </body>
 
 </html>

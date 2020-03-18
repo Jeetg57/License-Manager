@@ -5,18 +5,23 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="reset-password.php" tabindex="-1" aria-disabled="true">Reset Password</a>
+        <?php
+        if(isset($_SESSION["username"])){
+            echo("
+            <ul class='navbar-nav nav ml-auto'>
+            <li class='nav-item'>
+                <a class='nav-link' href='reset-password.php' tabindex='-1' aria-disabled='true'>Reset Password</a>
             </li>
-            <li class="nav-item">
+            <li class='nav-item'>
 
             </li>
-            <a class="nav-link" href="logout.php" tabindex="-1" aria-disabled="true">Logout</a>
+            <a class='nav-link' href='logout.php' tabindex='-1' aria-disabled='true'>Logout</a>
             </li>
             <li>
-                <a class="nav-link disabled">Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b></a>
-            </li>
-        </ul>
+                <a class='nav-link disabled'>Hi, <b>"); echo htmlspecialchars($_SESSION["username"]); echo("</b></a>
+        </li>
+        </ul>");
+        }
+        ?>
     </div>
 </nav>
