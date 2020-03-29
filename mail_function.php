@@ -12,11 +12,11 @@
      $mail->SMTPAuth = true;
      $mail->SMTPSecure = 'tls'; // tls or ssl
      $mail->Port     = "587";
-     $mail->Username = "jeetg57@gmail.com";
-     $mail->Password = "nHMDhLcPKTBpEzab";
+     $mail->Username = "email";
+     $mail->Password = "password";
      $mail->Host     = "smtp-relay.sendinblue.com";
      $mail->Mailer   = "smtp";
-     $mail->SetFrom("jeetg57@gmail.com", "License Manager");
+     $mail->SetFrom("email", "License Manager");
      $mail->AddAddress($email);
      $mail->Subject = "OTP to Login";
      $mail->MsgHTML($message_body);
