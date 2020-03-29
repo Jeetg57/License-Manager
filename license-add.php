@@ -4,29 +4,29 @@ require_once "config.php";
 
 session_start();
 
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-$connection = mysql_connect("localhost", "root", ""); // Establishing Connection with Server
-$db = mysql_select_db("license_manager", $connection); // Selecting Database from Server
-if(isset($_POST['submit'])){ // Fetching variables of the form which travels in URL
+if (isset($_POST['submit'])) { // Fetching variables of the form which travels in URL
     $license_type = $_POST['license_type'];
     $license_name = $_POST['license_name'];
     $license_code = $_POST['license_code'];
     $device_id = $_POST['device_id'];
-    if($license_code !=''){
-    //Insert Query of SQL
-    $query = mysql_query("INSERT INTO `license`(`license_type`, `license_name`, `license_code`, `device_id`) VALUES  ('$license_type', '$license_name', AES_ENCRYPT('$license_code', 'passkey'), $device_id)");
-    echo "<br/><br/><span>Data Inserted successfully...!!</span>";
-    header("location: welcome.php");
+    if ($license_code !='') {
+        //Insert Query of SQL
+        $query = ("INSERT INTO `license`(`license_type`, `license_name`, `license_code`, `device_id`) VALUES  ('$license_type', '$license_name', AES_ENCRYPT('$license_code', 'passkey'), $device_id)");
+        if ($mysqli->query($query) === true) {
+            $Message =  "Record created successfully";
+            header("location: welcome.php");
+        } else {
+            $Message =  "Error: " . $query . "<br>" . $mysqli->error;
+        }
+    } else {
+        $Message = "NULL VALUES!";
     }
-    else{
-    echo "<p>Insertion Failed <br/> Some Fields are Blank....!!</p>";
-    }
-    }
-    mysql_close($connection); // Closing Connection with Server
-
+    $mysqli->close(); // Closing Connection with Server
+}
 ?>
 
 <html>
@@ -73,6 +73,7 @@ if(isset($_POST['submit'])){ // Fetching variables of the form which travels in 
                 </div>
             </div>
         </form>
+        <?php echo($Message)?>
     </div>
 </body>
 

@@ -28,7 +28,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <?php 
     include("modularized/navigation.php");
 
-    $sql = "SELECT `license_id`,`license_type`,`license_name`, AES_DECRYPT(`license_code`, 'passkey') as license_code, `device_id` FROM `license`";
+    $sql = "SELECT `id`,`license_type`,`license_name`, AES_DECRYPT(`license_code`, 'passkey') as license_code, `device_id` FROM `license`;";
     $result = $mysqli->query($sql);
     echo("
     <div class='table-responsive'>
@@ -48,7 +48,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        $license_id = $row['license_id'];
+        $license_id = $row['id'];
         $license_name = $row['license_name'];
         $license_type = $row['license_type'];
         $license_code = $row['license_code'];

@@ -4,12 +4,14 @@ require_once "config.php";
 
 session_start();
 
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-//Variables
-
+if (!isset($_SESSION['newid'])) {
+    header("location: verify.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +26,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </head>
 
 <body>
+
+
     <?php include("modularized/navigation.php");
-    $sql = "SELECT `device_name`, `owner_id`, `id`, `license_type`,`license_name`, AES_DECRYPT(`license_code`, 'passkey') as license_code  FROM `userlicenses`";
+    $sql = "SELECT `id`, `username`, AES_DECRYPT(`card_number`, 'passkey') as card_number, AES_DECRYPT(`cvv`, 'passkey') as cvv, card_type, expiry FROM `user_cards`";
     $result = $mysqli->query($sql);
     
     echo("
@@ -33,28 +37,32 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <table class='table'>
     <thead class='thread'>
     <tr>  
-      <th scope='col'>Device Name</th>
-      <th scope='col'>License Name</th>
-      <th scope='col'>License Type</th>
-      <th scope='col'>License Code</th>
+      <th scope='col'>Username</th>
+      <th scope='col'>Card Number</th>
+      <th scope='col'>CVV</th>
+      <th scope='col'>Type</th>
+      <th scope='col'>Expiry</th>
     </tr>
     </thead>
     <tbody>");
 if ($result->num_rows > 0) {
     // output data of each row
-    while($row = $result->fetch_assoc()) {
-        if($_SESSION["id"] == $row['owner_id']){
-            $device_name = $row['device_name'];
-            $license_id = $row['id'];
-            $license_name = $row['license_name'];
-            $license_type = $row['license_type'];
-            $license_code = $row['license_code'];
+    while ($row = $result->fetch_assoc()) {
+        if ($_SESSION["username"] == $row['username']) {
+            $id = $row['id'];
+            $device_name = $row['username'];
+            $card_number = $row['card_number'];
+            $cvv = $row['cvv'];
+            $card_type = $row['card_type'];
+            $expiry = $row['expiry'];
             echo("
             <tr>
             <th scope='row'>$device_name</th>
-                <td>$license_name</td>
-                <td>$license_type</td>
-                <td>$license_code</td>
+                <td>$card_number</td>
+                <td>$cvv</td>
+                <td>$card_type</td>
+                <td>$expiry</td>
+                <td><a href='delete_card.php?id=$id' class='btn btn-danger'>Delete</a></td>
             </tr>");
         }
     }

@@ -3,27 +3,31 @@
 require_once "config.php";
 
 session_start();
+$Message = "";
 $owner_id = $_SESSION['id'];
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-$connection = mysql_connect("localhost", "root", ""); // Establishing Connection with Server
-$db = mysql_select_db("license_manager", $connection); // Selecting Database from Server
-if(isset($_POST['submit'])){ // Fetching variables of the form which travels in URL
+
+if (isset($_POST['submit'])) { // Fetching variables of the form which travels in URL
     $device_name = $_POST['device_name'];
-    if($device_name !=''){
-    //Insert Query of SQL
-    $query = mysql_query("INSERT INTO `device`(`device_name`, `owner_id`) VALUES ('$device_name', $owner_id)");
-    echo "<br/><br/><span>Data Inserted successfully...!!</span>";
+    if ($device_name !='') {
+        //Insert Query of SQL
+        $query = ("INSERT INTO `device`(`device_name`, `owner_id`) VALUES ('$device_name', $owner_id)");
+        if ($mysqli->query($query) === true) {
+            $Message =  "Record created successfully";
+        } else {
+            $Message =  "Error: " . $query . "<br>" . $mysqli->error;
+        }
+    } else {
+        $Message = "NULL VALUES!";
+    }
+    $mysqli->close(); // Closing Connection with Server
+    sleep(2);
     header("location: welcome.php");
-    }
-    else{
-    echo "<p>Insertion Failed <br/> Some Fields are Blank....!!</p>";
-    }
-    }
-    mysql_close($connection); // Closing Connection with Server
-    ?>
+}
+?>
 
 
 <!DOCTYPE html>
@@ -33,7 +37,7 @@ if(isset($_POST['submit'])){ // Fetching variables of the form which travels in 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <title>Document</title>
+    <title>Welcome</title>
 </head>
 
 <body>
@@ -52,6 +56,7 @@ if(isset($_POST['submit'])){ // Fetching variables of the form which travels in 
             </div>
         </div>
     </form>
+    <p class="text-center"><?php echo $Message ?></p>
 </body>
 
 </html>
